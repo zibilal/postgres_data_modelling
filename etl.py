@@ -6,6 +6,11 @@ from sql_queries import *
 
 
 def process_song_file(cur, filepath):
+    """
+    Process song file, saved in data/song_data. The data on the json file will be loaded into songs and artist tables
+    :param cur: the cursor object
+    :param filepath: the json file path
+    """
     # open song file
     df = pd.read_json(filepath, lines=True)
 
@@ -19,6 +24,12 @@ def process_song_file(cur, filepath):
 
 
 def process_log_file(cur, filepath):
+    """
+    Process log file, saved in data/log_data. The data on the json file will be loaded into time, users,
+    and songplays tables
+    :param cur: the cursor object
+    :param filepath: the json file path
+    """
     # open log file
     df = pd.read_json(filepath, lines=True)
 
@@ -61,6 +72,15 @@ def process_log_file(cur, filepath):
 
 
 def process_data(cur, conn, filepath, func):
+    """
+    Process data fetch all json files specified in filepath parameter. Each file send as a parameter input for
+    the func parameter function object, together with cur object.
+
+    :param cur: the cursor object
+    :param conn: the database connection object
+    :param filepath: the file path
+    :param func: function object that will be called
+    """
     # get all files matching extension from directory
     all_files = []
     for root, dirs, files in os.walk(filepath):
