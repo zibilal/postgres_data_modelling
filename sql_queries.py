@@ -1,0 +1,114 @@
+# DROP TABLES
+
+songplay_table_drop = "DROP TABLE IF EXISTS songplays"
+user_table_drop = "DROP TABLE IF EXISTS users"
+song_table_drop = "DROP TABLE IF EXISTS songs"
+artist_table_drop = "DROP TABLE IF EXISTS artists"
+time_table_drop = "DROP TABLE IF EXISTS exists time"
+
+# CREATE TABLES
+
+songplay_table_create = ("""
+CREATE TABLE IF NOT EXISTS songplays (
+    songplay_id SERIAL PRIMARY KEY, 
+    start_time TIMESTAMP NOT NULL, 
+    user_id INT NOT NULL, 
+    level VARCHAR NOT NULL, 
+    song_id VARCHAR NOT NULL, 
+    artist_id VARCHAR NOT NULL, 
+    session_id INT NOT NULL, 
+    location VARCHAR NOT NULL, 
+    user_agent TEXT NOT NULL
+)
+""")
+
+user_table_create = ("""
+CREATE TABLE IF NOT EXISTS users (
+    user_id INT PRIMARY KEY, 
+    first_name VARCHAR NOT NULL, 
+    last_name VARCHAR NOT NULL, 
+    gender CHAR(1) NOT NULL, 
+    level VARCHAR NOT NULL
+)
+""")
+
+song_table_create = ("""
+CREATE TABLE IF NOT EXISTS songs (
+    song_id VARCHAR PRIMARY KEY, 
+    title VARCHAR NOT NULL, 
+    artist_id VARCHAR NOT NULL, 
+    year INT, 
+    duration REAL
+)
+""")
+
+artist_table_create = ("""
+CREATE TABLE IF NOT EXISTS artists (
+    artist_id VARCHAR PRIMARY KEY, 
+    name VARCHAR NOT NULL, 
+    location VARCHAR, 
+    latitude REAL, 
+    longitude REAL
+)
+""")
+
+time_table_create = ("""
+CREATE TABLE IF NOT EXISTS time (
+    start_time TIMESTAMP PRIMARY KEY, 
+    hour INT NOT NULL, 
+    day INT NOT NULL, 
+    week INT NOT NULL, 
+    month INT NOT NULL, 
+    year INT NOT NULL, 
+    weekday INT NOT NULL
+)
+""")
+
+# INSERT RECORDS
+
+songplay_table_insert = ("""
+INSERT INTO songplays 
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+ON CONFLICT DO NOTHING
+""")
+
+user_table_insert = ("""
+INSERT INTO users 
+    VALUES (%s, %s, %s, %s, %s)
+ON CONFLICT DO NOTHING
+""")
+
+song_table_insert = ("""
+INSERT INTO songs 
+    VALUES (%s, %s, %s, %s, %s)
+ON CONFLICT DO NOTHING
+""")
+
+artist_table_insert = ("""
+INSERT INTO artists 
+    VALUES (%s, %s, %s, %s, %s)
+ON CONFLICT DO NOTHING
+""")
+
+
+time_table_insert = ("""
+INSERT INTO time 
+    VALUES (%s, %s, %s, %s, %s, %s, %s)
+ON CONFLICT DO NOTHING
+""")
+
+# FIND SONGS
+
+song_select = ("""
+SELECT 
+    p.song_id, p.artist_id 
+FROM songplays p
+    INNER JOIN songs s ON p.song_id = s.song_id
+    INNER JOIN artists a ON p.artist_id = a.artist_id
+WHERE s.title=%s AND a.name=%s AND s.duration=%s
+""")
+
+# QUERY LISTS
+
+create_table_queries = [songplay_table_create, user_table_create, song_table_create, artist_table_create, time_table_create]
+drop_table_queries = [songplay_table_drop, user_table_drop, song_table_drop, artist_table_drop, time_table_drop]
