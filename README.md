@@ -39,5 +39,16 @@ The `etl` is design to be easy to maintain and modify. Every `etl` process is sa
 
 All jupyter notebook files is used as a helper to test the etl.
 
+## Running Script
+
+### Requirements
+- `python 3`
+- postgresql database
+
+This `etl` is execute using `python` command. For start the `etl` process, execute script `etl.py`. Example is presented below.
+
+```shell script
+python etl.py
+```
 
 
