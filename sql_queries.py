@@ -4,7 +4,7 @@ songplay_table_drop = "DROP TABLE IF EXISTS songplays"
 user_table_drop = "DROP TABLE IF EXISTS users"
 song_table_drop = "DROP TABLE IF EXISTS songs"
 artist_table_drop = "DROP TABLE IF EXISTS artists"
-time_table_drop = "DROP TABLE IF EXISTS exists time"
+time_table_drop = "DROP TABLE IF EXISTS time"
 
 # CREATE TABLES
 
@@ -14,8 +14,8 @@ CREATE TABLE IF NOT EXISTS songplays (
     start_time TIMESTAMP NOT NULL, 
     user_id INT NOT NULL, 
     level VARCHAR NOT NULL, 
-    song_id VARCHAR NOT NULL, 
-    artist_id VARCHAR NOT NULL, 
+    song_id VARCHAR, 
+    artist_id VARCHAR, 
     session_id INT NOT NULL, 
     location VARCHAR NOT NULL, 
     user_agent TEXT NOT NULL
