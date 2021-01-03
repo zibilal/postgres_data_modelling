@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS songs (
     title VARCHAR NOT NULL, 
     artist_id VARCHAR NOT NULL, 
     year INT, 
-    duration REAL
+    duration NUMERIC
 )
 """)
 
@@ -47,8 +47,8 @@ CREATE TABLE IF NOT EXISTS artists (
     artist_id VARCHAR PRIMARY KEY, 
     name VARCHAR NOT NULL, 
     location VARCHAR, 
-    latitude REAL, 
-    longitude REAL
+    latitude NUMERIC, 
+    longitude NUMERIC
 )
 """)
 
@@ -67,8 +67,8 @@ CREATE TABLE IF NOT EXISTS time (
 # INSERT RECORDS
 
 songplay_table_insert = ("""
-INSERT INTO songplays 
-    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+INSERT INTO songplays (start_time, user_id, level, song_id, artist_id, session_id, location, user_agent)
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
 ON CONFLICT DO NOTHING
 """)
 
@@ -99,14 +99,13 @@ ON CONFLICT DO NOTHING
 
 # FIND SONGS
 
-song_select = ("""
+song_select = """
 SELECT 
-    p.song_id, p.artist_id 
-FROM songplays p
-    INNER JOIN songs s ON p.song_id = s.song_id
-    INNER JOIN artists a ON p.artist_id = a.artist_id
+    s.song_id, 
+    s.artist_id 
+FROM songs s INNER JOIN artists a ON s.artist_id = a.artist_id
 WHERE s.title=%s AND a.name=%s AND s.duration=%s
-""")
+"""
 
 # QUERY LISTS
 

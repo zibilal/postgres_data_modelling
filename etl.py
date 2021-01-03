@@ -7,7 +7,7 @@ from sql_queries import *
 
 def process_song_file(cur, filepath):
     """
-    Process song file, saved in data/song_data. The data on the json file will be loaded into songs and artist tables
+    Process song file, saved in data_bak/song_data. The data_bak on the json file will be loaded into songs and artist tables
     :param cur: the cursor object
     :param filepath: the json file path
     """
@@ -25,7 +25,7 @@ def process_song_file(cur, filepath):
 
 def process_log_file(cur, filepath):
     """
-    Process log file, saved in data/log_data. The data on the json file will be loaded into time, users,
+    Process log file, saved in data_bak/log_data. The data_bak on the json file will be loaded into time, users,
     and songplays tables
     :param cur: the cursor object
     :param filepath: the json file path
@@ -39,7 +39,7 @@ def process_log_file(cur, filepath):
     # convert timestamp column to datetime
     t = pd.to_datetime(df['ts'], unit='ms')
       
-    # insert time data records
+    # insert time data_bak records
     time_data = ([item, item.hour, item.day, item.week, item.month, item.year, item.weekday()] for item in t)
     column_labels = ('start_time', 'hour', 'day', 'week', 'month', 'year', 'weekday')
     time_df = pd.DataFrame(time_data, columns=column_labels)
@@ -66,13 +66,13 @@ def process_log_file(cur, filepath):
             songid, artistid = None, None
 
         # insert songplay record
-        songplay_data = (index, t[index], row.userId, row.level, songid, artistid, row.sessionId, row.location, row.userAgent)
+        songplay_data = (t[index], row.userId, row.level, songid, artistid, row.sessionId, row.location, row.userAgent)
         cur.execute(songplay_table_insert, songplay_data)
 
 
 def process_data(cur, conn, filepath, func):
     """
-    Process data fetch all json files specified in filepath parameter. Each file send as a parameter input for
+    Process data_bak fetch all json files specified in filepath parameter. Each file send as a parameter input for
     the func parameter function object, together with cur object.
 
     :param cur: the cursor object
